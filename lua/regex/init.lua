@@ -1,11 +1,3 @@
---print('calling init regex')
-
---local test = vim.regex('testhere')
---print(test)
-
-
---print(debug.getinfo(vim.regex, "S").source)
-
 local buf = vim.api.nvim_create_buf(false, true)
 print('new buffer is', buf)
 
@@ -14,18 +6,22 @@ print('new buffer is', buf)
 -- math.floor((11 - 3) / 2) = 4 (0 indexed)
 
 
-local win_row = math.floor((vim.o.lines - 20) / 2)
-local win_col = math.floor((vim.o.columns - 20) / 2)
-print('win_row is:', win_row)
-print('win_col is:', win_col)
+-- Window height and width half of terminal size
+local win_height = math.floor(vim.o.lines / 2)
+local win_width = math.floor(vim.o.columns / 2)
+
+-- Window row/col anchor calulated to place window in center of terminal
+local win_row = math.floor((vim.o.lines - win_height) / 2)
+local win_col = math.floor((vim.o.columns - win_width) / 2)
+
 local win_opts = {
     relative='win',                 -- Relative to window
     win=0,                          -- Relative to CURRENT window
     anchor='NW',                    -- NW corner placed at (row,col)
-    width=20,                     -- Float width
-    height=20,                    -- Float height
-    row=win_row,                        -- Float row (0 based indexing)
-    col=win_col,                        -- Float col (0 based indexing)
+    height=win_height,                      -- Float height
+    width=win_width,                       -- Float width
+    row=win_row,                    -- Float row (0 based indexing)
+    col=win_col,                    -- Float col (0 based indexing)
     focusable=true,                 -- User can enter window
     mouse=true,                     -- Mouse events interact with window normally
     zindex=50,                      -- Default zindex
